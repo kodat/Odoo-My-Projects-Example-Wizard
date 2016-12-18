@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record id="my_projects_view_form" model="ir.ui.view">
+			<field name="name">My Project Form</field>
+			<field name="model">my.project</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button string="doration calculation" type="action" name="%(action_project_doration_form)d" />
+					</header>
+					<sheet>
+						<group>
+						<group name="first_group">
+							<field name="name" />
+							<field name="description" />
+							<field name="is_done" />
+							<field name="is_active" />
+						</group>	
+										
+						<group name="second_group">
+							<field name="start_date" />
+							<field name="end_date" />
+							<field name="total" readonly="1"/>
+						</group>
+					</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="my_projects_tree" model="ir.ui.view">
+			<field name="name">My Projects Tree</field>
+			<field name="model">my.project</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="description" />
+					<field name="is_done" />
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="projects_search">
+            <field name="name">Projects</field>
+            <field name="model">my.project</field>
+            <field name="arch" type="xml">
+                <search string="Events">
+                	<field name="name" />
+                	<filter string="By Name" name="name" domain="[('name','=','name')]"/>
+                	<group expand="0" string="Group By">
+                        <filter string="Progress" context="{'group_by': 'is_done'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_projects" model="ir.actions.act_window">
+            <field name="name">My Project</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">my.project</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="search_view_id" ref="projects_search"/>
+        </record>
+
+
+		<menuitem name="My Projects" id="my_projects_menu" sequence="20" />
+		<menuitem name="Projects" id="my_projects_submenu" parent="my_projects_menu" />
+		<menuitem name="My Projects" id="my_projects_action_menu" parent="my_projects_submenu" action="action_projects"/>
+
+	</data>
+</openerp>
